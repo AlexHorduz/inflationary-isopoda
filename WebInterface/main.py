@@ -1,9 +1,9 @@
+from typing import Annotated
+
 from fastapi import FastAPI, Response, Request, HTTPException, status, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-
-from typing import Annotated
 
 import constants
 from sup import authenticate_user, create_access_token, timedelta
