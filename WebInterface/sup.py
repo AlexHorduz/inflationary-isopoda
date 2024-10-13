@@ -1,6 +1,6 @@
 from structure import UserInDB
 from datetime import datetime, timedelta, timezone
-from constants import JWT_Secret, JWT_Algorithm, JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+from constants import JWT_SECRET, JWT_ALGORITHM, JWT_ACCESS_TOKEN_EXPIRE_MINUTES
 import jwt
 
 
@@ -11,7 +11,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, JWT_Secret, algorithm=JWT_Algorithm)
+    encoded_jwt = jwt.encode(to_encode, JWT_SECRET, algorithm=JWT_ALGORITHM)
     return encoded_jwt
 
 

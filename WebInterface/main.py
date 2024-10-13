@@ -1,9 +1,11 @@
 from fastapi import FastAPI, Response, Request, HTTPException, status, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import constants
-from typing import Annotated
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
+from typing import Annotated
+
+import constants
 from sup import authenticate_user, create_access_token, timedelta
 from structure import Token, User
 from authentication import get_current_active_user
@@ -36,7 +38,7 @@ async def read_users_me(
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ) -> Token:
-    user = authenticate_user(constants.fake_users_db, form_data.username, form_data.password)
+    user = authenticate_user(constants.FAKE_USERS_DB, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
