@@ -1,10 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<form method="Post">
-    <label>
-        <input>
-    </label>
-    <input type="submit">
-</form>
-<script>alert(5)</script>
+<div class="container">
+    <div class="side-panel">
+        <h2>Chats</h2>
+        <ul class="chat-list">
+            <li id="chat-1" class="chat-item open">Chat 1 (Open)</li>
+            <li id="chat-2" class="chat-item in-progress">Chat 2 (In Progress)</li>
+            <li id="chat-3" class="chat-item closed">Chat 3 (Closed)</li>
+            <li id="chat-4" class="chat-item open">Chat 4 (Open)</li>
+            <li id="chat-create" class="chat-item">Create new dialog</li>
+        </ul>
+    </div>
+    <div class="chat-container">
+        <div class="chat-window" id="chat-window">
+            <div class="message bot-message">
+                Hello! I'm here to assist you. Type your message below.
+            </div>
+        </div>
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Type a message..." />
+            <button id="user-input-button">Send</button>
+        </div>
+    </div>
+</div>
 {% endblock %}
