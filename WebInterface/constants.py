@@ -1,0 +1,2 @@
+
+CSP = "base-uri 'self'; default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self'; media-src 'self'; font-src 'self' https://fonts.googleapis.com; connect-src 'self'; worker-src 'self'; frame-src 'none'; form-action 'self';"
