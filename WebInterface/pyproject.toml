@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "Inflationary Isopoda Web Interface"
+version = "0.1.0"
+description = "Web Interface for a chatbot"
+authors = ["TeeBeeaF <teebeeaf@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.115.2"
+pydantic = "^2.9.2"
+jinja2 = "3.1.3"
+typing-extensions = ">=4.12.2"
+uvicorn = ">=0.26.0,<0.27.0"
+python-dotenv = "1.0.1"
+pillow = "10.3.0"
+requests = ">2.31.0"
+websockets = ">=12.0,<13.0"
+httptools = "0.6.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
