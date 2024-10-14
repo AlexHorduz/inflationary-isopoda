@@ -1,0 +1,18 @@
+services:
+  mongodb:
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $(MONGO_INITDB_ROOT_USERNAME) # For trolling
+      MONGO_INITDB_ROOT_PASSWORD: $(MONGO_INITDB_ROOT_PASSWORD) # For trolling
+    image: mongo:7.0.12
+    volumes:
+      - mongodb-volume:/data/db
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always

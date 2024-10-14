@@ -1,6 +1,6 @@
 services:
   webint:
-    build: ..
+    build: .
     container_name: webint
     ports:
       - "8080:8080"
