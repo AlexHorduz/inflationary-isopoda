@@ -1,7 +1,5 @@
-from clients import Clients
-from supports import Supports
+from . import conversations_collection
 
-class Conversations(Clients, Supports):
+class Conversations:
     def __init__(self, nickname):
-        super().__init__(nickname)
-
+        self.nickname = nickname
