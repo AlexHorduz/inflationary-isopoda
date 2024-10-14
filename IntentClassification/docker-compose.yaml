@@ -1,0 +1,9 @@
+services:
+  intent_classification:
+    build: .
+    container_name: intent_classification
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./src:/app/src" # To be changed in the production stage
+    restart: always
