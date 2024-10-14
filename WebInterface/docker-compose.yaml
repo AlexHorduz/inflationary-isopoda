@@ -5,5 +5,5 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ".:/app" # To be changed in the production stage
+      - "./src:/app" # To be changed in the production stage
     restart: always

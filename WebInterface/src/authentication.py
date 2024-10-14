@@ -8,7 +8,12 @@ from sup import get_user
 from constants import JWT_ALGORITHM, JWT_SECRET, OAUTH2_SCHEME, FAKE_USERS_DB
 from structure import TokenData, User
 
-async def get_current_user(token: Annotated[str, Depends(OAUTH2_SCHEME)]):
+async def get_current_user(token: Annotated[str, Depends(OAUTH2_SCHEME)]) -> User:
+    """
+    Returns the information about current user
+    :param token: JWT token
+    :return:
+    """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",

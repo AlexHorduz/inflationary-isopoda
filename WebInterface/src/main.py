@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import FastAPI, Response, Request, HTTPException, status, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
 
 import constants
 from sup import authenticate_user, create_access_token, timedelta
@@ -15,7 +15,15 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 @app.middleware("http")
-async def add_csp_header(request: Request, call_next):
+async def add_csp_header(request: Request, call_next) -> Response:
+    """
+    Adds Content Security Policy header to every response.
+    :param request: Request to the server
+    :type request: Request
+    :param call_next: The function that processes the request
+    :return: Response with CSP header
+
+    """
     response = await call_next(request)
     response.headers["Content-Security-Policy"] = constants.CSP
     return response
