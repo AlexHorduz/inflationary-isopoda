@@ -3,6 +3,8 @@ include:
       - "./WebInterface/docker-compose.yaml"
   - path:
       - "./mongodb/docker-compose.yaml"
+  - path:
+      - "./IntentClassification/docker-compose.yaml"
 
 volumes:
   mongodb-volume:
