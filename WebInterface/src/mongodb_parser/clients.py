@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 
-from . import *
+from . import clients_collection
 
 class Clients:
     def __init__(self, nickname):
@@ -9,7 +9,7 @@ class Clients:
 
     def get_since(self) -> datetime | bool:
         try:
-            return supports_collection.find({"name": self.client_nickname})[0]['client_since']
+            return clients_collection.find({"name": self.client_nickname})[0]['client_since']
         except Exception as e:
             logging.error(e)
             return False

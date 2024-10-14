@@ -1,4 +1,3 @@
-from . import *
 from clients import Clients
 from supports import Supports
 

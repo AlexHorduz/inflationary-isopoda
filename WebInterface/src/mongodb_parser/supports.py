@@ -1,4 +1,4 @@
-from . import *
+from . import supports_collection
 
 class Supports:
     def __init__(self, nickname):
