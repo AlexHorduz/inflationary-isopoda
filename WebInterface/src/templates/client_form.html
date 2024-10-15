@@ -1,26 +1,32 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container">
-    <div class="side-panel">
-        <h2>Chats</h2>
-        <ul class="chat-list">
-            <li id="chat-1" class="chat-item open">Chat 1 (Open)</li>
-            <li id="chat-2" class="chat-item in-progress">Chat 2 (In Progress)</li>
-            <li id="chat-3" class="chat-item closed">Chat 3 (Closed)</li>
-            <li id="chat-4" class="chat-item open">Chat 4 (Open)</li>
-            <li id="chat-create" class="chat-item">Create new dialog</li>
-        </ul>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inflationary Isopoda - Login</title>
+    <link rel="stylesheet" href="../static/css/main.css"> <!-- Include your CSS styles -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../static/js/script.js" defer></script> <!-- Include the script.js file -->
+</head>
+<body>
+    <div class="team-name">Inflationary Isopoda</div> <!-- Updated team name -->
+
+    <div class="auth-form">
+        <h1>Авторизація</h1>
+        <form id="login-form" method="post" action="/token">
+            <input type="text" name="username" placeholder="Ім'я користувача" required>
+            <input type="password" name="password" placeholder="Пароль" required>
+            <button type="submit">Увійти</button>
+        </form>
     </div>
-    <div class="chat-container">
-        <div class="chat-window" id="chat-window">
-            <div class="message bot-message">
-                Hello! I'm here to assist you. Type your message below.
-            </div>
+
+    <div class="chat-container" style="display: none;">
+        <h1>Чат</h1>
+        <div id="chat-window" style="height: 400px; overflow-y: scroll; border: 1px solid #444; padding: 10px;">
+            <!-- Chat messages will be appended here -->
         </div>
-        <div class="input-area">
-            <input type="text" id="user-input" placeholder="Type a message..." />
-            <button id="user-input-button">Send</button>
-        </div>
+        <input type="text" id="user-input" placeholder="Ваше повідомлення" required>
+        <button id="user-input-button">Відправити</button>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>
