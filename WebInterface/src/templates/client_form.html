@@ -1,32 +1,44 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inflationary Isopoda - Login</title>
-    <link rel="stylesheet" href="../static/css/main.css"> <!-- Include your CSS styles -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../static/js/script.js" defer></script> <!-- Include the script.js file -->
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
+
+<header>
     <div class="team-name">Inflationary Isopoda</div> <!-- Updated team name -->
+    <button id="logout-button" onclick="location.href='/login'">Вийти</button> <!-- Redirects to login -->
+</header>
 
-    <div class="auth-form">
-        <h1>Авторизація</h1>
-        <form id="login-form" method="post" action="/token">
-            <input type="text" name="username" placeholder="Ім'я користувача" required>
-            <input type="password" name="password" placeholder="Пароль" required>
-            <button type="submit">Увійти</button>
-        </form>
+
+<div class="chat-container">
+    <div class="sidebar">
+        <h2>Доступні Чати
+            <button id="add-chat-button">➕</button>
+        </h2>
+        <ul id="chat-list">
+            <li class="active-chat" data-chat-id="1">
+                Чат 1
+                <button class="delete-chat-button" title="Видалити чат">🗑️</button>
+            </li>
+            <li data-chat-id="2">
+                Чат 2
+                <button class="delete-chat-button" title="Видалити чат">🗑️</button>
+            </li>
+            <li data-chat-id="3">
+                Чат 3
+                <button class="delete-chat-button" title="Видалити чат">🗑️</button>
+            </li>
+            <!-- Add more chats as needed -->
+        </ul>
     </div>
 
-    <div class="chat-container" style="display: none;">
-        <h1>Чат</h1>
-        <div id="chat-window" style="height: 400px; overflow-y: scroll; border: 1px solid #444; padding: 10px;">
-            <!-- Chat messages will be appended here -->
+    <div class="chat-window">
+        <h1 id="current-chat-title">Чат 1</h1>
+        <div class="chat-history" id="chat-history">
+            <!-- Messages will be dynamically inserted here -->
         </div>
-        <input type="text" id="user-input" placeholder="Ваше повідомлення" required>
-        <button id="user-input-button">Відправити</button>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Ваше повідомлення" required>
+            <button id="user-input-button">Відправити</button>
+        </div>
     </div>
-</body>
-</html>
+</div>
+
+{% endblock %}

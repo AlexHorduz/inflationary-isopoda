@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<header>
+    <div class="team-name">Inflationary Isopoda</div>
+</header>
+<div class="login-page">
+    <div class="auth-form">
+        <h1>Авторизація</h1>
+        <form id="login-form" method="post" action="/login">
+            <input type="text" name="username" placeholder="Ім'я користувача" required>
+            <input type="password" name="password" placeholder="Пароль" required>
+            <button type="submit">Увійти</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

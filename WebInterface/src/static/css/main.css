@@ -1,102 +1,232 @@
+/* General Styles */
 body {
-    background-color: #121212; 
-    color: #e0e0e0; 
-    font-family: Arial, sans-serif; 
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Figtree', sans-serif;
     margin: 0;
     padding: 0;
+    height: 100vh; /* Use full viewport height */
+    overflow-y: hidden; /* Prevent vertical scrolling */
+    position: relative;
 }
 
+/* Header Styles */
 header {
-    background-color: #1f1f1f; 
+    background-color: #1a1a1a; /* Darker color for header */
     padding: 15px;
-    text-align: center;
-}
-
-.auth-form {
-    background-color: #1e1e1e;
-    padding: 20px;
-    border: 1px solid #444;
-    max-width: 400px; 
-    margin: auto;
-}
-
-.auth-form input {
-    background-color: #333;
-    color: #fff;
-    border: 1px solid #444; 
-    padding: 10px;
-    width: 100%; 
-    max-width: 400px; 
-    margin-bottom: 10px; 
-    box-sizing: border-box; 
-}
-
-.auth-form button {
-    background-color: #007bff; 
-    color: white; 
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    max-width: 400px; 
-    width: 100%; 
-}
-
-.chat-container {
-    display: none; 
-    background-color: #1e1e1e; 
-    padding: 20px;
-    border: 1px solid #444;
-}
-
-#chat-window {
-    max-height: 400px; 
-    overflow-y: auto; 
-    background-color: #2c2c2c; 
-    color: #e0e0e0; 
-    padding: 10px;
-    margin-bottom: 10px; 
-}
-
-.message {
-    margin: 5px 0; 
-    padding: 5px; 
-}
-
-.user-message {
-    background-color: #007bff; 
-    color: white; 
-    text-align: right; 
-}
-
-.bot-message {
-    background-color: #444; 
-    color: #e0e0e0; 
-}
-
-#user-input-button {
-    background-color: #007bff; 
-    color: white; 
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-#user-input-button:hover {
-    background-color: #0056b3; 
-}
-
-@media (max-width: 600px) {
-    .auth-form, .chat-container {
-        width: 90%; 
-    }
+    display: flex; /* Flexbox for team name and logout button */
+    justify-content: space-between; /* Space between elements */
+    align-items: center; /* Center items vertically */
 }
 
 /* Team name in the corner */
 .team-name {
-    position: absolute; /* Position it in the corner */
-    top: 10px; /* Adjust vertical position */
-    right: 10px; /* Adjust horizontal position */
-    font-size: 16px; /* Font size for team name */
+    font-size: 18px;
+    color: #e0e0e0;
+    font-weight: 600;
+}
+
+/* Logout Button Styles */
+#logout-button {
+    background-color: #4CAF50; /* Soft green color for logout */
+    color: white;
+    border: none;
+    padding: 8px 12px; /* Smaller padding */
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+#logout-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Chat Container */
+.chat-container {
+    display: flex; /* Use flexbox for layout */
+    height: calc(100vh - 60px); /* Full height minus header */
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px; /* Width of the sidebar */
+    background-color: #1f1f1f; /* Sidebar background */
     color: #e0e0e0; /* Text color */
-    z-index: 10; /* Ensure it appears above other elements */
+    padding: 15px;
+    border-right: 1px solid #444; /* Border for separation */
+    overflow-y: auto; /* Enable scrolling */
+}
+
+.sidebar h2 {
+    margin-top: 0;
+}
+
+.sidebar ul {
+    list-style-type: none; /* Remove default bullets */
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 10px;
+    cursor: pointer;
+    border: 2px solid #444; /* Thicker outline for chat buttons */
+    margin-bottom: 10px; /* Space between chat items */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.sidebar li:hover {
+    background-color: #333; /* Highlight on hover */
+}
+
+.active-chat {
+    background-color: #007bff; /* Highlight active chat */
+}
+
+/* Chat Window Styles */
+.chat-window {
+    flex: 1; /* Fill remaining space */
+    display: flex;
+    flex-direction: column; /* Arrange children vertically */
+    padding: 15px;
+    background-color: #1e1e1e; /* Chat background */
+}
+
+.chat-window h1 {
+    margin: 0; /* Remove default margin */
+}
+
+/* Chat History Styles */
+.chat-history {
+    flex: 1; /* Grow to fill available space */
+    overflow-y: auto; /* Enable scrolling for chat history */
+    background-color: #333; /* Chat history background */
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+}
+
+.chat-history p {
+    margin: 5px 0; /* Space between messages */
+    color: #e0e0e0; /* Message text color */
+    word-wrap: break-word; /* Break long words to fit in the container */
+    line-height: 1.5; /* Improve text readability */
+}
+
+/* Input and Button Styles */
+#user-input {
+    width: calc(100% - 21px); /* Adjust for button width */
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 3px;
+    background-color: #333;
+    color: #fff;
+    margin-right: 5px; /* Add space between input and button */
+    display: inline-block; /* Align with button */
+}
+
+#user-input-button {
+    background-color: #1e1e1e; /* Dark background color */
+    color: #007bff; /* Blue text color */
+    border: 2px solid #007bff; /* Blue outline */
+    padding: 10px; /* Padding for button */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 3px; /* Slightly rounded corners */
+    font-size: 14px; /* Font size */
+    width: 100%; /* Full width */
+    display: block; /* Make it a block element */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+/* Hover Effect */
+#user-input-button:hover {
+    background-color: #007bff; /* Change background to blue on hover */
+    color: white; /* Change text color to white on hover */
+    border: 2px solid #0056b3; /* Darker blue outline on hover */
+}
+
+/* General button styles */
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.add-chat-button {
+    background-color: #ffffff; /* White background */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.delete-chat-button {
+    display: none; /* Hidden by default */
+    cursor: pointer;
+    margin-left: 5px; /* Spacing from chat name */
+}
+
+.active-chat .delete-chat-button {
+    display: inline; /* Show only for active chat */
+}
+
+
+/* Responsive behavior for smaller screens */
+@media (max-width: 600px) {
+    .team-name {
+        right: 20px; /* Move team name a bit more left on smaller screens */
+    }
+
+    .footer {
+        width: 90%;
+    }
+
+    .sidebar {
+        width: 200px; /* Adjust sidebar width for small screens */
+    }
+
+    .chat-window {
+        padding: 10px; /* Reduce padding for small screens */
+    }
+
+}
+
+/* Styles for the login page to ensure visual consistency */
+.login-page {
+    display: flex; /* Use flexbox to center the form */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+    background-color: #121212; /* Dark background */
+}
+
+/* Adjust the auth-form to fit better in the layout */
+.auth-form {
+    background-color: #1e1e1e; /* Match the chat app form */
+    border-radius: 10px; /* Add rounded corners for a softer look */
+    padding: 20px; /* Add padding to the form */
+}
+
+/* Input fields styling */
+.auth-form input {
+    padding: 15px; /* Increase padding for better touch target */
+    border-radius: 5px; /* Add rounded corners to input fields */
+    transition: border 0.3s ease; /* Smooth transition for focus effects */
+}
+
+.auth-form input:focus {
+    border: 1px solid #007bff; /* Highlight border on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Button styling */
+.auth-form button {
+    padding: 15px; /* Increase padding for better touch target */
+    border-radius: 5px; /* Add rounded corners to buttons */
+    transition: background 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.auth-form button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
 }
