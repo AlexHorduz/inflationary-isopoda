@@ -1,12 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-
-<header>
-    <div class="team-name">Inflationary Isopoda</div> <!-- Updated team name -->
-    <button id="logout-button" onclick="location.href='/login'">Вийти</button> <!-- Redirects to login -->
-</header>
-
-
 <div class="chat-container">
     <div class="sidebar">
         <h2>Доступні Чати
@@ -25,14 +18,12 @@
                 Чат 3
                 <button class="delete-chat-button" title="Видалити чат">🗑️</button>
             </li>
-            <!-- Add more chats as needed -->
         </ul>
     </div>
 
     <div class="chat-window">
         <h1 id="current-chat-title">Чат 1</h1>
         <div class="chat-history" id="chat-history">
-            <!-- Messages will be dynamically inserted here -->
         </div>
         <div class="input-container">
             <input type="text" id="user-input" placeholder="Ваше повідомлення" required>

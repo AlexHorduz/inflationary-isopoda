@@ -1,61 +1,62 @@
-/* General Styles */
 body {
     background-color: #121212;
     color: #e0e0e0;
     font-family: 'Figtree', sans-serif;
     margin: 0;
     padding: 0;
-    height: 100vh; /* Use full viewport height */
-    overflow-y: hidden; /* Prevent vertical scrolling */
+    height: 100vh;
+    overflow-y: hidden; 
     position: relative;
 }
 
-/* Header Styles */
 header {
-    background-color: #1a1a1a; /* Darker color for header */
+    background-color: #1a1a1a; 
     padding: 15px;
-    display: flex; /* Flexbox for team name and logout button */
-    justify-content: space-between; /* Space between elements */
-    align-items: center; /* Center items vertically */
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
 }
 
-/* Team name in the corner */
 .team-name {
     font-size: 18px;
     color: #e0e0e0;
     font-weight: 600;
+    display: inline-block;
+    margin-right: 10px; 
 }
 
-/* Logout Button Styles */
+.team-logo {
+    height: 40px;
+    vertical-align: middle; 
+}
+
 #logout-button {
-    background-color: #4CAF50; /* Soft green color for logout */
+    background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 8px 12px; /* Smaller padding */
+    padding: 8px 12px; 
     cursor: pointer;
     border-radius: 5px;
     font-size: 14px;
-    transition: background-color 0.3s; /* Smooth transition */
+    transition: background-color 0.3s;
 }
 
 #logout-button:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #45a049; 
 }
 
-/* Chat Container */
 .chat-container {
-    display: flex; /* Use flexbox for layout */
-    height: calc(100vh - 60px); /* Full height minus header */
+    display: flex; 
+    height: calc(100vh - 60px); 
 }
 
-/* Sidebar Styles */
 .sidebar {
-    width: 250px; /* Width of the sidebar */
-    background-color: #1f1f1f; /* Sidebar background */
-    color: #e0e0e0; /* Text color */
+    width: 250px;
+    background-color: #1f1f1f;
+    color: #e0e0e0;
     padding: 15px;
-    border-right: 1px solid #444; /* Border for separation */
-    overflow-y: auto; /* Enable scrolling */
+    border-right: 1px solid #444; 
+    overflow-y: auto;
 }
 
 .sidebar h2 {
@@ -63,89 +64,85 @@ header {
 }
 
 .sidebar ul {
-    list-style-type: none; /* Remove default bullets */
+    list-style-type: none; 
     padding: 0;
 }
 
 .sidebar li {
     padding: 10px;
     cursor: pointer;
-    border: 2px solid #444; /* Thicker outline for chat buttons */
-    margin-bottom: 10px; /* Space between chat items */
-    transition: background-color 0.3s; /* Smooth transition */
+    border: 2px solid #444;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
 }
 
 .sidebar li:hover {
-    background-color: #333; /* Highlight on hover */
+    background-color: #333; 
 }
 
 .active-chat {
-    background-color: #007bff; /* Highlight active chat */
+    background-color: #007bff; 
 }
 
-/* Chat Window Styles */
 .chat-window {
-    flex: 1; /* Fill remaining space */
+    flex: 1;
     display: flex;
-    flex-direction: column; /* Arrange children vertically */
+    flex-direction: column;
     padding: 15px;
-    background-color: #1e1e1e; /* Chat background */
+    background-color: #1e1e1e; 
 }
 
 .chat-window h1 {
-    margin: 0; /* Remove default margin */
+    margin: 0;
 }
 
-/* Chat History Styles */
 .chat-history {
-    flex: 1; /* Grow to fill available space */
-    overflow-y: auto; /* Enable scrolling for chat history */
-    background-color: #333; /* Chat history background */
+    flex: 1; 
+    overflow-y: auto; 
+    background-color: #333; 
     padding: 10px;
     border: 1px solid #444;
     border-radius: 5px;
 }
 
 .chat-history p {
-    margin: 5px 0; /* Space between messages */
-    color: #e0e0e0; /* Message text color */
-    word-wrap: break-word; /* Break long words to fit in the container */
-    line-height: 1.5; /* Improve text readability */
+    margin: 5px 0; 
+    color: #e0e0e0;
+    word-wrap: break-word; 
+    line-height: 1.5; 
 }
 
-/* Input and Button Styles */
 #user-input {
-    width: calc(100% - 21px); /* Adjust for button width */
+    width: calc(100% - 21px); 
     padding: 10px;
     border: 1px solid #444;
     border-radius: 3px;
     background-color: #333;
     color: #fff;
-    margin-right: 5px; /* Add space between input and button */
-    display: inline-block; /* Align with button */
+    margin-right: 5px; 
+    display: inline-block; 
 }
 
 #user-input-button {
-    background-color: #1e1e1e; /* Dark background color */
-    color: #007bff; /* Blue text color */
-    border: 2px solid #007bff; /* Blue outline */
-    padding: 10px; /* Padding for button */
-    cursor: pointer; /* Pointer cursor on hover */
-    border-radius: 3px; /* Slightly rounded corners */
-    font-size: 14px; /* Font size */
-    width: 100%; /* Full width */
-    display: block; /* Make it a block element */
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+    background-color: #1e1e1e;
+    color: #007bff; 
+    border: 2px solid #007bff;
+    padding: 10px; 
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 14px; 
+    width: 100%; 
+    display: block;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Hover Effect */
 #user-input-button:hover {
-    background-color: #007bff; /* Change background to blue on hover */
-    color: white; /* Change text color to white on hover */
-    border: 2px solid #0056b3; /* Darker blue outline on hover */
+    background-color: #007bff; 
+    color: white; 
+    border: 2px solid #0056b3;
 }
 
-/* General button styles */
+
 button {
     border: none;
     background: none;
@@ -153,8 +150,8 @@ button {
 }
 
 .add-chat-button {
-    background-color: #ffffff; /* White background */
-    border: 1px solid #ccc; /* Light border */
+    background-color: #ffffff;
+    border: 1px solid #ccc;
     border-radius: 5px;
     padding: 5px 10px;
     cursor: pointer;
@@ -162,20 +159,19 @@ button {
 }
 
 .delete-chat-button {
-    display: none; /* Hidden by default */
+    display: none; 
     cursor: pointer;
-    margin-left: 5px; /* Spacing from chat name */
+    margin-left: 5px; 
 }
 
 .active-chat .delete-chat-button {
-    display: inline; /* Show only for active chat */
+    display: inline; 
 }
 
 
-/* Responsive behavior for smaller screens */
 @media (max-width: 600px) {
     .team-name {
-        right: 20px; /* Move team name a bit more left on smaller screens */
+        right: 20px;
     }
 
     .footer {
@@ -183,50 +179,46 @@ button {
     }
 
     .sidebar {
-        width: 200px; /* Adjust sidebar width for small screens */
+        width: 200px;
     }
 
     .chat-window {
-        padding: 10px; /* Reduce padding for small screens */
+        padding: 10px; 
     }
 
 }
 
-/* Styles for the login page to ensure visual consistency */
 .login-page {
-    display: flex; /* Use flexbox to center the form */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 100vh; /* Full viewport height */
-    background-color: #121212; /* Dark background */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    background-color: #121212; 
 }
 
-/* Adjust the auth-form to fit better in the layout */
 .auth-form {
-    background-color: #1e1e1e; /* Match the chat app form */
-    border-radius: 10px; /* Add rounded corners for a softer look */
-    padding: 20px; /* Add padding to the form */
+    background-color: #1e1e1e;
+    border-radius: 10px; 
+    padding: 20px; 
 }
 
-/* Input fields styling */
 .auth-form input {
-    padding: 15px; /* Increase padding for better touch target */
-    border-radius: 5px; /* Add rounded corners to input fields */
-    transition: border 0.3s ease; /* Smooth transition for focus effects */
+    padding: 15px; 
+    border-radius: 5px;
+    transition: border 0.3s ease;
 }
 
 .auth-form input:focus {
-    border: 1px solid #007bff; /* Highlight border on focus */
-    outline: none; /* Remove default outline */
+    border: 1px solid #007bff; 
+    outline: none; 
 }
 
-/* Button styling */
 .auth-form button {
-    padding: 15px; /* Increase padding for better touch target */
-    border-radius: 5px; /* Add rounded corners to buttons */
-    transition: background 0.3s ease; /* Smooth transition for hover effects */
+    padding: 15px;
+    border-radius: 5px; 
+    transition: background 0.3s ease; 
 }
 
 .auth-form button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3; 
 }
