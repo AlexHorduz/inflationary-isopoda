@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import FastAPI, Response, Request, HTTPException, status, Depends
+from fastapi import FastAPI, Response, Request, HTTPException, status, Depends, APIRouter, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordRequestForm
@@ -13,6 +13,8 @@ from authentication import get_current_active_user
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
+
+router = APIRouter()
 
 @app.middleware("http")
 async def add_csp_header(request: Request, call_next) -> Response:
@@ -58,3 +60,14 @@ async def login_for_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
     return Token(access_token=access_token, token_type="bearer")
+
+@app.get("/login")
+async def login(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="client_form.html"
+    )
+
+
+@app.post("login")
+async def login_post(request: Request, username: Annotated[str, Form()], password: Annotated[str, Form()]):
+    return {"username": username, "password": password}
