@@ -111,37 +111,50 @@ header {
     word-wrap: break-word; 
     line-height: 1.5; 
 }
+.input-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    border: 1px solid #444;
+    margin: 15px 0;
+}
 
 #user-input {
-    width: calc(100% - 21px); 
+    flex: 1;
     padding: 10px;
-    border: 1px solid #444;
-    border-radius: 3px;
-    background-color: #333;
-    color: #fff;
-    margin-right: 5px; 
-    display: inline-block; 
+    border: none;
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    margin-right: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+#user-input::placeholder {
+    color: #888;
 }
 
 #user-input-button {
-    background-color: #1e1e1e;
-    color: #007bff; 
-    border: 2px solid #007bff;
-    padding: 10px; 
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    border-radius: 3px;
-    font-size: 14px; 
-    width: 100%; 
-    display: block;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
 }
 
 #user-input-button:hover {
-    background-color: #007bff; 
-    color: white; 
-    border: 2px solid #0056b3;
+    background-color: #0056b3;
 }
 
+#user-input-button:active {
+    background-color: #003d80;
+}
 
 button {
     border: none;
@@ -158,10 +171,18 @@ button {
     margin-top: 10px;
 }
 
+#chat-list {
+    position: relative;
+}
+
 .delete-chat-button {
-    display: none; 
+    display: inline-block;
     cursor: pointer;
-    margin-left: 5px; 
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 16px;
 }
 
 .active-chat .delete-chat-button {

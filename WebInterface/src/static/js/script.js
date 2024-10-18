@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentChatId = 1;
     const chatIds = [1, 2, 3];
 
+    // Connect to WebSocket
+    const ws = new WebSocket('ws://localhost:8000/ws');  // Adjust URL if needed
+
     function escapeHtml(unsafe) {
         return unsafe
             .replace(/&/g, "&amp;")
@@ -19,19 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function sendMessage() {
         const message = userInput.value.trim();
         if (message) {
-            fetch('/send-message', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ message: message })
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                chatHistory.innerHTML += `<p><strong>Ви:</strong> ${escapeHtml(message)}</p>`;
-                userInput.value = '';
-                loadBotResponse();
-            });
+            const formattedMessage = JSON.stringify({ message, chatId: currentChatId });
+            ws.send(formattedMessage); // Send the message via WebSocket
+            chatHistory.innerHTML += `<p><strong>Ви:</strong> ${escapeHtml(message)}</p>`;
+            userInput.value = '';
+            chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll to the bottom
         }
     }
 
@@ -44,16 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function loadBotResponse() {
-        fetch('/get-latest-message')
-            .then(response => response.json())
-            .then(data => {
-                if (data.message) {
-                    chatHistory.innerHTML += `<p><strong>Бот:</strong> ${escapeHtml(data.message)}</p>`;
-                    chatHistory.scrollTop = chatHistory.scrollHeight;
-                }
-            });
-    }
+    // Receive and display messages from WebSocket
+    ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        const { message, chatId } = data;
+
+        if (chatId == currentChatId) {
+            chatHistory.innerHTML += `<p><strong>Бот:</strong> ${escapeHtml(message)}</p>`;
+            chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll to the bottom
+        }
+    };
 
     function updateActiveChat() {
         const chatListItems = document.querySelectorAll('#chat-list li');
