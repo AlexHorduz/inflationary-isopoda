@@ -1,6 +1,6 @@
-from typing import Annotated
+from typing import Annotated, List
 
-from fastapi import FastAPI, Response, Request, HTTPException, status, Depends, APIRouter, Form
+from fastapi import FastAPI, Response, Request, HTTPException, status, Depends, APIRouter, Form, WebSocket
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.security import OAuth2PasswordRequestForm
@@ -68,6 +68,29 @@ async def login(request: Request):
     )
 
 
-@app.post("login")
+@app.post("/login")
 async def login_post(request: Request, username: Annotated[str, Form()], password: Annotated[str, Form()]):
     return {"username": username, "password": password}
+
+
+@app.post("/send_message")
+async def get_message(request: Request, message: Annotated[str, Form()], thread_id: Annotated[int, Form()]):
+    pass
+
+
+clients: List[WebSocket] = []
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    clients.append(websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            for client in clients:
+                if client != websocket:
+                    await client.send_text(data)
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        clients.remove(websocket)
