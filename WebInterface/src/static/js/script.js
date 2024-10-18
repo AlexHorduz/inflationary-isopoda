@@ -5,10 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatList = document.getElementById('chat-list');
 
     let currentChatId = 1;
-    const chatIds = [1, 2, 3];
+    let chatIds = [1, 2, 3];
 
-    // Connect to WebSocket
-    const ws = new WebSocket('ws://localhost:8000/ws');  // Adjust URL if needed
+    const ws = new WebSocket('ws://localhost:8000/ws');  
 
     function escapeHtml(unsafe) {
         return unsafe
@@ -19,14 +18,37 @@ document.addEventListener('DOMContentLoaded', () => {
             .replace(/'/g, "&#039;");
     }
 
+    const noChatsMessage = document.getElementById('no-chats-message');
+
+    function updateChatDisplay() {
+        const chatItems = document.getElementById('chat-items');
+        if (chatItems.children.length === 0) {
+            noChatsMessage.style.display = 'block'; 
+        } else {
+            noChatsMessage.style.display = 'none'; 
+        }
+    }
+
+    function addMessageToChat(message, sender) {
+        const messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container';
+
+        const messageElement = document.createElement('div');
+        messageElement.className = `message ${sender}-message`; 
+        messageElement.innerHTML = `<strong>${sender === 'user' ? 'Ви' : 'Бот'}:</strong> ${escapeHtml(message)}`;
+
+        messageContainer.appendChild(messageElement);
+        chatHistory.appendChild(messageContainer);
+        chatHistory.scrollTop = chatHistory.scrollHeight; 
+    }
+
     function sendMessage() {
         const message = userInput.value.trim();
         if (message) {
             const formattedMessage = JSON.stringify({ message, chatId: currentChatId });
-            ws.send(formattedMessage); // Send the message via WebSocket
-            chatHistory.innerHTML += `<p><strong>Ви:</strong> ${escapeHtml(message)}</p>`;
+            ws.send(formattedMessage); 
+            addMessageToChat(message, 'user'); 
             userInput.value = '';
-            chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll to the bottom
         }
     }
 
@@ -39,14 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Receive and display messages from WebSocket
     ws.onmessage = function (event) {
         const data = JSON.parse(event.data);
         const { message, chatId } = data;
 
         if (chatId == currentChatId) {
-            chatHistory.innerHTML += `<p><strong>Бот:</strong> ${escapeHtml(message)}</p>`;
-            chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll to the bottom
+            addMessageToChat(message, 'bot'); 
         }
     };
 
@@ -84,10 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const chatToRemove = chatList.querySelector(`li[data-chat-id="${chatId}"]`);
         if (chatToRemove) {
             chatList.removeChild(chatToRemove);
-            const index = chatIds.indexOf(Number(chatId));
-            if (index > -1) {
-                chatIds.splice(index, 1);
-            }
+            chatIds = chatIds.filter(id => id != chatId);
             if (currentChatId == chatId) {
                 currentChatId = chatIds.length > 0 ? chatIds[0] : null; 
                 document.getElementById('current-chat-title').textContent = currentChatId ? `Чат ${currentChatId}` : '';
@@ -98,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('add-chat-button').addEventListener('click', () => {
-        let newChatId = Math.max(...chatIds) + 1; 
+        const newChatId = chatIds.length > 0 ? Math.max(...chatIds) + 1 : 1; 
         chatIds.push(newChatId);
 
         const newChatItem = document.createElement('li');

@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
+<header>
+    <div class="header-left">
+        <div class="team-name">Inflationary Isopoda</div>
+        <img src="{{ url_for('static', path='images/logo.png') }}" alt="Logo" class="team-logo">
+    </div>
+</header>
+
 <div class="login-page">
     <div class="auth-form">
         <h1>Авторизація</h1>
@@ -9,5 +16,8 @@
             <button type="submit">Увійти</button>
         </form>
     </div>
+</div>
+<div class="copyright">
+    © 2024 Inflationary Isopoda. Всі права захищені.
 </div>
 {% endblock %}
