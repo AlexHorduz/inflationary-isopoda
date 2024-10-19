@@ -1,0 +1,7 @@
+services:
+  intent_classification:
+    build: .
+    container_name: speech_transcription
+    ports:
+      - "8001:8000"
+    restart: always
