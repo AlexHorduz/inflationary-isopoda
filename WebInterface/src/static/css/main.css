@@ -42,22 +42,6 @@ header {
 .team-logo:hover {
     box-shadow: 0 0 10px rgba(0, 180, 216, 0.5); 
 }
-#logout-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 8px 12px; 
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
-    transition: background-color 0.3s;
-}
-
-#logout-button:hover {
-    background-color: #45a049; 
-}
-
-
 
 #logout-button {
     background-color: #4CAF50;
@@ -89,17 +73,18 @@ header {
 }
 
 .sidebar h2 {
-    font-family: "Montserrat Alternates"; 
+    font-family: 'Arial', sans-serif; 
     margin-top: 0;
-    background-color: #444;
-    color: #ffffff;
+    background-color: #242424;
+    color: #61e5ff;
     padding: 5px;
     border-radius: 3px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 16px; 
+    letter-spacing: 0.5px; 
 }
-
 
 .sidebar ul {
     list-style-type: none; 
@@ -114,7 +99,6 @@ header {
     transition: background-color 0.3s;
     border-radius: 5px;
 }
-
 
 .sidebar li:hover {
     background-color: #333; 
@@ -134,11 +118,11 @@ header {
 }
 
 #current-chat-title {
-    font-family: "Montserrat Alternates"; 
+    font-family: 'Arial', sans-serif; 
     margin: 5px 0;
-    font-size: 18px;
-    color: #ffffff;
-    background-color: #2e2e2e; 
+    font-size: 16px; 
+    color: #61e5ff;
+    background-color: #242424; 
     padding: 8px 12px;
     border-radius: 5px;
     border: 1px solid #00b4d8; 
@@ -146,8 +130,6 @@ header {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     display: inline-block; 
 }
-
-
 
 .chat-window h1 {
     margin: 0;
@@ -168,6 +150,7 @@ header {
     word-wrap: break-word; 
     line-height: 1.5; 
 }
+
 .input-container {
     display: flex;
     align-items: center;
@@ -189,6 +172,34 @@ header {
     font-size: 16px;
     outline: none;
 }
+
+.voice-input-button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    position: relative;
+    margin-left: 10px;
+}
+
+.voice-input-button:hover {
+    background-color: #0056b3;
+}
+
+.voice-input-button:active {
+    background-color: #003d80;
+}
+
+.voice-indicator {
+    margin-left: 10px;
+    color: #e0e0e0;
+    font-size: 14px;
+    display: inline-block;
+}
+
+
 
 #user-input::placeholder {
     color: #888;
@@ -268,7 +279,6 @@ button {
     .chat-window {
         padding: 10px; 
     }
-
 }
 
 .login-page {
@@ -281,15 +291,8 @@ button {
     position: relative; 
 }
 
-
 .auth-form {
-    background: linear-gradient(
-        to bottom,
-        #1f1f1f,
-        #181818,
-        #141414,
-        #101010
-    ); 
+    background: linear-gradient(to bottom, #1f1f1f, #181818, #141414, #101010); 
     border-radius: 15px;
     padding: 40px;
     width: 100%;
@@ -317,7 +320,6 @@ button {
     box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
-
 
 .auth-form button {
     width: 100%;
@@ -383,6 +385,4 @@ button {
 .message-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 10px;
 }
