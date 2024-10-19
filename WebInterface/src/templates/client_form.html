@@ -1,8 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
+
+<header>
+    <div class="header-left">
+        <div class="team-name">Inflationary Isopoda</div>
+        <img src="{{ url_for('static', path='images/logo.png') }}" alt="Logo" class="team-logo">
+    </div>
+    <button id="logout-button" onclick="location.href='/login'" style="display:none;">Вийти</button>
+</header>
+
 <div class="chat-container">
     <div class="sidebar">
-        <h2>Доступні Чати
+        <h2>Доступні чати
             <button id="add-chat-button">➕</button>
         </h2>
         <ul id="chat-list">
@@ -24,6 +33,9 @@
     <div class="chat-window">
         <h1 id="current-chat-title">Чат 1</h1>
         <div class="chat-history" id="chat-history">
+            <div class="message-container">
+                
+            </div>
         </div>
         <div class="input-container">
             <input type="text" id="user-input" placeholder="Ваше повідомлення" required>

@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatList = document.getElementById('chat-list');
 
     let currentChatId = 1;
-    const chatIds = [1, 2, 3];
+    let chatIds = [1, 2, 3];
+
+    const ws = new WebSocket('ws://localhost:8000/ws');  
 
     function escapeHtml(unsafe) {
         return unsafe
@@ -16,22 +18,37 @@ document.addEventListener('DOMContentLoaded', () => {
             .replace(/'/g, "&#039;");
     }
 
+    const noChatsMessage = document.getElementById('no-chats-message');
+
+    function updateChatDisplay() {
+        const chatItems = document.getElementById('chat-items');
+        if (chatItems.children.length === 0) {
+            noChatsMessage.style.display = 'block'; 
+        } else {
+            noChatsMessage.style.display = 'none'; 
+        }
+    }
+
+    function addMessageToChat(message, sender) {
+        const messageContainer = document.createElement('div');
+        messageContainer.className = 'message-container';
+
+        const messageElement = document.createElement('div');
+        messageElement.className = `message ${sender}-message`; 
+        messageElement.innerHTML = `<strong>${sender === 'user' ? 'Ви' : 'Бот'}:</strong> ${escapeHtml(message)}`;
+
+        messageContainer.appendChild(messageElement);
+        chatHistory.appendChild(messageContainer);
+        chatHistory.scrollTop = chatHistory.scrollHeight; 
+    }
+
     function sendMessage() {
         const message = userInput.value.trim();
         if (message) {
-            fetch('/send-message', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ message: message })
-            }).then(response => {
-                return response.json();
-            }).then(data => {
-                chatHistory.innerHTML += `<p><strong>Ви:</strong> ${escapeHtml(message)}</p>`;
-                userInput.value = '';
-                loadBotResponse();
-            });
+            const formattedMessage = JSON.stringify({ message, chatId: currentChatId });
+            ws.send(formattedMessage); 
+            addMessageToChat(message, 'user'); 
+            userInput.value = '';
         }
     }
 
@@ -44,16 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function loadBotResponse() {
-        fetch('/get-latest-message')
-            .then(response => response.json())
-            .then(data => {
-                if (data.message) {
-                    chatHistory.innerHTML += `<p><strong>Бот:</strong> ${escapeHtml(data.message)}</p>`;
-                    chatHistory.scrollTop = chatHistory.scrollHeight;
-                }
-            });
-    }
+    ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        const { message, chatId } = data;
+
+        if (chatId == currentChatId) {
+            addMessageToChat(message, 'bot'); 
+        }
+    };
 
     function updateActiveChat() {
         const chatListItems = document.querySelectorAll('#chat-list li');
@@ -89,10 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const chatToRemove = chatList.querySelector(`li[data-chat-id="${chatId}"]`);
         if (chatToRemove) {
             chatList.removeChild(chatToRemove);
-            const index = chatIds.indexOf(Number(chatId));
-            if (index > -1) {
-                chatIds.splice(index, 1);
-            }
+            chatIds = chatIds.filter(id => id != chatId);
             if (currentChatId == chatId) {
                 currentChatId = chatIds.length > 0 ? chatIds[0] : null; 
                 document.getElementById('current-chat-title').textContent = currentChatId ? `Чат ${currentChatId}` : '';
@@ -103,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById('add-chat-button').addEventListener('click', () => {
-        let newChatId = Math.max(...chatIds) + 1; 
+        const newChatId = chatIds.length > 0 ? Math.max(...chatIds) + 1 : 1; 
         chatIds.push(newChatId);
 
         const newChatItem = document.createElement('li');
