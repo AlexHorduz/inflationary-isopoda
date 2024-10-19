@@ -9,7 +9,7 @@ from fastapi.responses import RedirectResponse
 
 import constants
 from sup import authenticate_user, create_access_token, timedelta
-from structure import Token, User
+from structure import User
 from authentication import get_current_active_user
 from conversation.main import conversation_router
 
@@ -36,9 +36,8 @@ async def add_csp_header(request: Request, call_next) -> Response:
 
 @app.get("/")
 def root(request: Request) -> templates.TemplateResponse:
-    return templates.TemplateResponse(
-        request=request, name="client_form.html"
-    )
+    response = RedirectResponse("/login/", status_code=303)
+    return response
 
 @app.get("/users/me/", response_model=User)
 async def read_users_me(
@@ -69,6 +68,7 @@ async def login_post(request: Request, form_data: Annotated[OAuth2PasswordReques
     response = RedirectResponse("/conversation/", status_code=303)
     response.set_cookie(key="token", value=access_token)
     return response
+
 
 @app.post("/send_message")
 async def get_message(request: Request, message: Annotated[str, Form()], thread_id: Annotated[int, Form()]):

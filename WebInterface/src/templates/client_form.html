@@ -15,23 +15,18 @@
             <button id="add-chat-button">➕</button>
         </h2>
         <ul id="chat-list">
-            <li class="active-chat" data-chat-id="1">
-                Чат 1
+            {% for conv in conversations %}
+            <!-- to be changed... -->
+            <li class="active-chat" data-chat-id="{{ conv.id }}">
+                Чат {{ loop.index }}
                 <button class="delete-chat-button" title="Видалити чат">🗑️</button>
             </li>
-            <li data-chat-id="2">
-                Чат 2
-                <button class="delete-chat-button" title="Видалити чат">🗑️</button>
-            </li>
-            <li data-chat-id="3">
-                Чат 3
-                <button class="delete-chat-button" title="Видалити чат">🗑️</button>
-            </li>
+            {% endfor %}
         </ul>
     </div>
 
     <div class="chat-window">
-        <h1 id="current-chat-title">Чат 1</h1>
+        <h1 id="current-chat-title">Чат</h1>
         <div class="chat-history" id="chat-history">
             <div class="message-container">
                 
