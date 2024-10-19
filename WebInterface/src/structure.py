@@ -1,9 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class User(BaseModel):
     username: str
     support: bool
+    disabled: bool | None = None
 
 class Token(BaseModel):
     access_token: str
