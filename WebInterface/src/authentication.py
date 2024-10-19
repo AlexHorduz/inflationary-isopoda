@@ -1,14 +1,15 @@
+from logging import disable
 from typing import Annotated
 
 import jwt
 from jwt.exceptions import InvalidTokenError
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException, status, Cookie
 
-from sup import get_user
-from constants import JWT_ALGORITHM, JWT_SECRET, OAUTH2_SCHEME, FAKE_USERS_DB
-from structure import TokenData, User
+from constants import JWT_ALGORITHM, JWT_SECRET
+from structure import User
+from mongodb_parser.authentication import  get_hashed_password, get_support_status
 
-async def get_current_user(token: Annotated[str, Depends(OAUTH2_SCHEME)]) -> User:
+async def get_current_user(token: Annotated[str | None, Cookie()] = None) -> User:
     """
     Returns the information about current user
     :param token: JWT token
@@ -24,13 +25,9 @@ async def get_current_user(token: Annotated[str, Depends(OAUTH2_SCHEME)]) -> Use
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
     except InvalidTokenError:
         raise credentials_exception
-    user = get_user(FAKE_USERS_DB, username=token_data.username)
-    if user is None:
-        raise credentials_exception
-    return user
+    return User(username=username, support=get_support_status(username))
 
 async def get_current_active_user(
     current_user: Annotated[User, Depends(get_current_user)],

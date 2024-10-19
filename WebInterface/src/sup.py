@@ -1,9 +1,11 @@
 from datetime import datetime, timedelta, timezone
+from os import supports_fd
 
 import jwt
 
 from structure import UserInDB
-from constants import JWT_SECRET, JWT_ALGORITHM, JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+from constants import JWT_SECRET, JWT_ALGORITHM, PWD_CONTEXT
+from mongodb_parser.authentication import get_hashed_password, get_support_status
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
@@ -16,21 +18,14 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+def verify_password(username, plain_password):
+    return PWD_CONTEXT.verify(plain_password, get_hashed_password(username))
 
 def get_password_hash(password):
-    return pwd_context.hash(password)
+    return PWD_CONTEXT.hash(password)
 
-def get_user(db, username: str):
-    if username in db:
-        user_dict = db[username]
-        return UserInDB(**user_dict)
+def authenticate_user(username: str, password: str):
+    if not verify_password(username, password):
+        return False
+    return UserInDB(hashed_password=get_hashed_password(username), username=username, support=get_support_status(username))
 
-def authenticate_user(fake_db, username: str, password: str):
-    user = get_user(fake_db, username)
-    if not user:
-        return False
-    if not verify_password(password, user.hashed_password):
-        return False
-    return user

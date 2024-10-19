@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-from ..constants import MONGO_INITDB_ROOT_USERNAME, MONGO_INITDB_ROOT_PASSWORD, IP_SERVER
+from constants import MONGO_INITDB_ROOT_USERNAME, MONGO_INITDB_ROOT_PASSWORD, IP_SERVER
 
 client = MongoClient(
     IP_SERVER,

@@ -1,34 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
+
+<header>
+    <div class="header-left">
+        <div class="team-name">Inflationary Isopoda</div>
+        <img src="{{ url_for('static', path='images/logo.png') }}" alt="Logo" class="team-logo">
+    </div>
+    <button id="logout-button" onclick="location.href='/login'" style="display:none;">Вийти</button>
+</header>
+
 <div class="chat-container">
     <div class="sidebar">
-        <h2>Доступні Чати
+        <h2>Доступні чати
             <button id="add-chat-button">➕</button>
         </h2>
         <ul id="chat-list">
-            <li class="active-chat" data-chat-id="1">
-                Чат 1
+            {% for conv in conversations %}
+            <!-- to be changed... -->
+            <li class="active-chat" data-chat-id="{{ conv.id }}">
+                Чат {{ loop.index }}
                 <button class="delete-chat-button" title="Видалити чат">🗑️</button>
             </li>
-            <li data-chat-id="2">
-                Чат 2
-                <button class="delete-chat-button" title="Видалити чат">🗑️</button>
-            </li>
-            <li data-chat-id="3">
-                Чат 3
-                <button class="delete-chat-button" title="Видалити чат">🗑️</button>
-            </li>
+            {% endfor %}
         </ul>
     </div>
 
     <div class="chat-window">
-        <h1 id="current-chat-title">Чат 1</h1>
+        <h1 id="current-chat-title">Чат</h1>
         <div class="chat-history" id="chat-history">
+            <div class="message-container">
+                
+            </div>
         </div>
         <div class="input-container">
             <input type="text" id="user-input" placeholder="Ваше повідомлення" required>
             <button id="user-input-button">Відправити</button>
+            <button class="voice-input-button" id="voice-input-button" title="Натисніть і утримуйте для запису голосу">
+                🎤
+            </button>
         </div>
+        
     </div>
 </div>
 
