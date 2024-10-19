@@ -3,11 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendButton = document.getElementById('user-input-button');
     const chatHistory = document.getElementById('chat-history');
     const chatList = document.getElementById('chat-list');
+    const noChatsMessage = document.getElementById('no-chats-message');
+    const voiceInputButton = document.getElementById('voice-input-button');
 
     let currentChatId = 1;
     let chatIds = [1, 2, 3];
+    let recognition;
 
-    const ws = new WebSocket('ws://localhost:8000/ws');  
+    const ws = new WebSocket('ws://localhost:8000/ws');
 
     function escapeHtml(unsafe) {
         return unsafe
@@ -18,15 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
             .replace(/'/g, "&#039;");
     }
 
-    const noChatsMessage = document.getElementById('no-chats-message');
-
     function updateChatDisplay() {
         const chatItems = document.getElementById('chat-items');
-        if (chatItems.children.length === 0) {
-            noChatsMessage.style.display = 'block'; 
-        } else {
-            noChatsMessage.style.display = 'none'; 
-        }
+        noChatsMessage.style.display = chatItems.children.length === 0 ? 'block' : 'none';
     }
 
     function addMessageToChat(message, sender) {
@@ -34,20 +31,20 @@ document.addEventListener('DOMContentLoaded', () => {
         messageContainer.className = 'message-container';
 
         const messageElement = document.createElement('div');
-        messageElement.className = `message ${sender}-message`; 
+        messageElement.className = `message ${sender}-message`;
         messageElement.innerHTML = `<strong>${sender === 'user' ? 'Ви' : 'Бот'}:</strong> ${escapeHtml(message)}`;
 
         messageContainer.appendChild(messageElement);
         chatHistory.appendChild(messageContainer);
-        chatHistory.scrollTop = chatHistory.scrollHeight; 
+        chatHistory.scrollTop = chatHistory.scrollHeight;
     }
 
     function sendMessage() {
         const message = userInput.value.trim();
         if (message) {
             const formattedMessage = JSON.stringify({ message, chatId: currentChatId });
-            ws.send(formattedMessage); 
-            addMessageToChat(message, 'user'); 
+            ws.send(formattedMessage);
+            addMessageToChat(message, 'user');
             userInput.value = '';
         }
     }
@@ -66,8 +63,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const { message, chatId } = data;
 
         if (chatId == currentChatId) {
-            addMessageToChat(message, 'bot'); 
+            addMessageToChat(message, 'bot');
         }
+    };
+
+    ws.onerror = function (error) {
+        console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = function () {
+        console.warn('WebSocket connection closed. Attempting to reconnect...');
+        // Optionally, implement a reconnection strategy
     };
 
     function updateActiveChat() {
@@ -93,45 +99,113 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            currentChatId = e.target.getAttribute('data-chat-id'); 
+            currentChatId = e.target.getAttribute('data-chat-id');
             document.getElementById('current-chat-title').textContent = `Чат ${currentChatId}`;
-            chatHistory.innerHTML = ''; 
+            chatHistory.innerHTML = '';
             updateActiveChat();
         }
     });
 
-    function removeChat(chatId) {
-        const chatToRemove = chatList.querySelector(`li[data-chat-id="${chatId}"]`);
-        if (chatToRemove) {
-            chatList.removeChild(chatToRemove);
-            chatIds = chatIds.filter(id => id != chatId);
-            if (currentChatId == chatId) {
-                currentChatId = chatIds.length > 0 ? chatIds[0] : null; 
-                document.getElementById('current-chat-title').textContent = currentChatId ? `Чат ${currentChatId}` : '';
-                chatHistory.innerHTML = '';
-                updateActiveChat();
+    async function removeChat(chatId) {
+        const response = await fetch(`/api/chats/${chatId}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            const chatToRemove = chatList.querySelector(`li[data-chat-id="${chatId}"]`);
+            if (chatToRemove) {
+                chatList.removeChild(chatToRemove);
+                chatIds = chatIds.filter(id => id != chatId);
+                if (currentChatId == chatId) {
+                    currentChatId = chatIds.length > 0 ? chatIds[0] : null;
+                    document.getElementById('current-chat-title').textContent = currentChatId ? `Чат ${currentChatId}` : '';
+                    chatHistory.innerHTML = '';
+                    updateActiveChat();
+                }
+                updateChatDisplay();
             }
+        } else {
+            console.error('Failed to delete chat');
         }
     }
 
-    document.getElementById('add-chat-button').addEventListener('click', () => {
-        const newChatId = chatIds.length > 0 ? Math.max(...chatIds) + 1 : 1; 
+    document.getElementById('add-chat-button').addEventListener('click', async () => {
+        const newChatId = chatIds.length > 0 ? Math.max(...chatIds) + 1 : 1;
         chatIds.push(newChatId);
 
         const newChatItem = document.createElement('li');
         newChatItem.setAttribute('data-chat-id', newChatId);
-        newChatItem.innerHTML = `Чат ${newChatId} <button class="delete-chat-button" style="display:none;">🗑️</button>`; 
+        newChatItem.innerHTML = `Чат ${newChatId} <button class="delete-chat-button" style="display:none;">🗑️</button>`;
 
         newChatItem.addEventListener('click', () => {
-            currentChatId = newChatId; 
+            currentChatId = newChatId;
             document.getElementById('current-chat-title').textContent = `Чат ${currentChatId}`;
             chatHistory.innerHTML = '';
-            updateActiveChat(); 
+            updateActiveChat();
         });
 
-        chatList.appendChild(newChatItem);
-        updateActiveChat();
+        const response = await fetch('/api/chats', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ chatId: newChatId })
+        });
+
+        if (response.ok) {
+            chatList.appendChild(newChatItem);
+            updateActiveChat();
+        } else {
+            console.error('Failed to add chat');
+        }
     });
 
+    function startVoiceInput() {
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+        recognition.onstart = () => {
+            voiceInputButton.style.backgroundColor = '#ffcccc'; 
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            sendMessageWithVoiceInput(transcript);
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Voice input error:', event.error);
+            resetVoiceInputButton();
+        };
+
+        recognition.onend = () => {
+            resetVoiceInputButton();
+            if (recognition) {
+                recognition.stop(); 
+            }
+        };
+
+        recognition.start();
+    }
+
+    function resetVoiceInputButton() {
+        voiceInputButton.style.backgroundColor = ''; 
+    }
+
+    voiceInputButton.addEventListener('mousedown', startVoiceInput);
+    voiceInputButton.addEventListener('mouseup', () => {
+        if (recognition) {
+            recognition.stop(); 
+        }
+    });
+
+    function sendMessageWithVoiceInput(message) {
+        if (message) {
+            const formattedMessage = JSON.stringify({ message, chatId: currentChatId });
+            ws.send(formattedMessage);
+            addMessageToChat(message, 'user');
+        }
+    }
+
     updateActiveChat();
+    updateChatDisplay();
 });
