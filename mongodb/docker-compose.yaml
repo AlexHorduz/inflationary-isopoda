@@ -2,8 +2,8 @@ services:
   mongodb:
     container_name: mongodb
     environment:
-      MONGO_INITDB_ROOT_USERNAME: $(MONGO_INITDB_ROOT_USERNAME) # For trolling
-      MONGO_INITDB_ROOT_PASSWORD: $(MONGO_INITDB_ROOT_PASSWORD) # For trolling
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME} # For trolling
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD} # For trolling
     image: mongo:7.0.12
     volumes:
       - mongodb-volume:/data/db
