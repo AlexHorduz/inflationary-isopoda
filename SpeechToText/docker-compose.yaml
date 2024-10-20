@@ -1,5 +1,5 @@
 services:
-  intent_classification:
+  speech_transcription:
     build: .
     container_name: speech_transcription
     ports:
