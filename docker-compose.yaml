@@ -5,6 +5,8 @@ include:
       - "./mongodb/docker-compose.yaml"
   - path:
       - "./IntentClassification/docker-compose.yaml"
+  - path:
+      - "./SpeechToText/docker-compose.yaml"
 
 volumes:
   mongodb-volume:
